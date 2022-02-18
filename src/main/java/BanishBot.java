@@ -1,4 +1,6 @@
 import bwapi.*;
+import bwta.BWTA;
+import bwta.BaseLocation;
 
 public class BanishBot extends DefaultBWListener{
     private BWClient bwClient;
@@ -9,6 +11,8 @@ public class BanishBot extends DefaultBWListener{
     public void onStart(){
         game = bwClient.getGame();
         self = game.self();
+
+
     }
 
     @Override
