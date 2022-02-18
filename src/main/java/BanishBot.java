@@ -26,6 +26,7 @@ public class BanishBot extends DefaultBWListener{
         }
     }
 
+
     void run() {
         bwClient = new BWClient(this);
         bwClient.startGame();
