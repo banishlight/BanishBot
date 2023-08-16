@@ -33,6 +33,8 @@ windows/starcraftfull
 *.ERR
 windows/bin/StarterBot_d.exe
 bin/StarterBot_d.exe
+windows/bin/StarterBot.exe
 windows/bin/ReplayData.txt
 windows/bin/ReplayParser.exe
 windows/bin/RunReplayParserAndStarcraft.bat
+windows/bin/StarterBot.exe

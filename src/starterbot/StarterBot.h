@@ -8,7 +8,18 @@ class StarterBot
 {
     MapTools m_mapTools;
 
+private:
+
+	int stage;
+	int workerMax;
+
+	void BasicOrder();
+	void increaseWorkerMax(int increase);
+	void buildSpawningpool();
+
 public:
+
+	
 
     StarterBot();
 

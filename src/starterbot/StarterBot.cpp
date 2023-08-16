@@ -4,7 +4,8 @@
 
 StarterBot::StarterBot()
 {
-    
+    stage = 0;
+    workerMax = 30;
 }
 
 // Called when the bot starts!
@@ -67,7 +68,7 @@ void StarterBot::sendIdleWorkersToMinerals()
 void StarterBot::trainAdditionalWorkers()
 {
     const BWAPI::UnitType workerType = BWAPI::Broodwar->self()->getRace().getWorker();
-    const int workersWanted = 20;
+    const int workersWanted = workerMax;
     const int workersOwned = Tools::CountUnitsOfType(workerType, BWAPI::Broodwar->self()->getUnits());
     if (workersOwned < workersWanted)
     {
@@ -77,6 +78,10 @@ void StarterBot::trainAdditionalWorkers()
         // if we have a valid depot unit and it's currently not training something, train a worker
         // there is no reason for a bot to ever use the unit queueing system, it just wastes resources
         if (myDepot && !myDepot->isTraining()) { myDepot->train(workerType); }
+    }
+    else
+    {
+        stage += 1;
     }
 }
 
@@ -168,4 +173,41 @@ void StarterBot::onUnitHide(BWAPI::Unit unit)
 void StarterBot::onUnitRenegade(BWAPI::Unit unit)
 { 
 	
+}
+
+void StarterBot::increaseWorkerMax(int increase)
+{
+    workerMax += increase;
+}
+
+void StarterBot::buildSpawningpool()
+{
+    Tools::BuildBuilding(BWAPI::UnitTypes::Zerg_Spawning_Pool);
+    stage += 1;
+}
+
+void StarterBot::BasicOrder()
+{
+    switch (stage) 
+    {
+    case 0: // Initial state, build workers
+        trainAdditionalWorkers();
+        break;
+    case 1:
+        buildSpawningpool();
+        
+        break;
+    case 2:
+        buildAdditionalSupply();
+        break;
+    case 3:
+        increaseWorkerMax(9);
+        trainAdditionalWorkers();
+        break;
+
+    default:
+        increaseWorkerMax(0);
+    }
+
+
 }
