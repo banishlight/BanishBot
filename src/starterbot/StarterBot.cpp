@@ -32,13 +32,20 @@ void StarterBot::onFrame()
     sendIdleWorkersToMinerals();
 
     // Train more workers so we can gather more income
-    trainAdditionalWorkers();
+    //trainAdditionalWorkers();
 
     // Build more supply if we are going to run out soon
-    buildAdditionalSupply();
+    //buildAdditionalSupply();
 
     // Draw unit health bars, which brood war unfortunately does not do
     Tools::DrawUnitHealthBars();
+
+
+
+    // Iterate over our Build Order
+    BasicOrder();
+
+
 
     // Draw some relevent information to the screen to help us debug the bot
     drawDebugInformation();
@@ -77,11 +84,8 @@ void StarterBot::trainAdditionalWorkers()
 
         // if we have a valid depot unit and it's currently not training something, train a worker
         // there is no reason for a bot to ever use the unit queueing system, it just wastes resources
-        if (myDepot && !myDepot->isTraining()) { myDepot->train(workerType); }
-    }
-    else
-    {
-        stage += 1;
+        // && !myDepot->isTraining()
+        if (myDepot ) { myDepot->train(workerType); }
     }
 }
 
@@ -107,7 +111,7 @@ void StarterBot::buildAdditionalSupply()
 // Draw some relevent information to the screen to help us debug the bot
 void StarterBot::drawDebugInformation()
 {
-    BWAPI::Broodwar->drawTextScreen(BWAPI::Position(10, 10), "Hello, World!\n");
+    BWAPI::Broodwar->drawTextScreen(BWAPI::Position(10, 10), "Hello, World3!\n");
     Tools::DrawUnitCommands();
     Tools::DrawUnitBoundingBoxes();
 }
@@ -182,30 +186,86 @@ void StarterBot::increaseWorkerMax(int increase)
 
 void StarterBot::buildSpawningpool()
 {
+    BWAPI::Broodwar->drawTextScreen(BWAPI::Position(10, 15), "Building Spawning pool!\n");
     Tools::BuildBuilding(BWAPI::UnitTypes::Zerg_Spawning_Pool);
-    stage += 1;
 }
+
+bool isSpawningPoolInProgress() {
+    for (auto u : BWAPI::Broodwar->self()->getUnits()) {
+        if (u->getType() == BWAPI::UnitTypes::Zerg_Spawning_Pool &&
+            u->isBeingConstructed()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void trainOverlord() {
+    for (auto u : BWAPI::Broodwar->self()->getUnits()) {
+        // Check if the unit is a Zerg Larva
+        if (u->getType() == BWAPI::UnitTypes::Zerg_Larva) {
+            // Issue the command to morph the Larva into an Overlord
+            u->morph(BWAPI::UnitTypes::Zerg_Overlord);
+            // Break out of the loop once an Overlord has been started
+            break;
+        }
+    }
+}
+
+void trainZerglings() {
+    for (auto u : BWAPI::Broodwar->self()->getUnits()) {
+        // Check if the unit is a Zerg Larva
+        if (u->getType() == BWAPI::UnitTypes::Zerg_Larva) {
+            // Issue the command to morph the Larva into a Zergling
+            u->morph(BWAPI::UnitTypes::Zerg_Zergling);
+            // Break out of the loop once a Zergling has been started
+            break;
+        }
+    }
+}
+
+
 
 void StarterBot::BasicOrder()
 {
+    BWAPI::Broodwar->drawTextScreen(BWAPI::Position(10, 0), "Stage: %d", stage);
     switch (stage) 
     {
     case 0: // Initial state, build workers
         trainAdditionalWorkers();
+        if (BWAPI::Broodwar->self()->supplyUsed() == 18) {
+          stage = 1;
+        }
         break;
     case 1:
+        //BWAPI::Broodwar->drawTextScreen(BWAPI::Position(10, 15), "Stage 2!\n");
         buildSpawningpool();
-        
+        if (isSpawningPoolInProgress()) {
+          stage = 2;
+        }
         break;
     case 2:
-        buildAdditionalSupply();
+        //buildAdditionalSupply();
+        trainOverlord();
+        if (Tools::GetTotalSupply(true) == 34) {
+         stage = 3;
+        }
         break;
-    case 3:
-        increaseWorkerMax(9);
+    case 3: {
+        // increaseWorkerMax(9);
         trainAdditionalWorkers();
+        BWAPI::UnitType workerType = BWAPI::Broodwar->self()->getRace().getWorker();
+        int workersOwned = Tools::CountUnitsOfType(workerType, BWAPI::Broodwar->self()->getUnits());
+        if (workersOwned == 12) { stage = 4; }
+    }
+        break;
+
+    case 4:
+        trainZerglings();
         break;
 
     default:
+        //BWAPI::Broodwar->drawTextScreen(BWAPI::Position(10, 15), "Defaulting");
         increaseWorkerMax(0);
     }
 
