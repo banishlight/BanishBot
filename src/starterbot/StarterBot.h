@@ -12,6 +12,7 @@ private:
 
 	int stage;
 	int workerMax;
+	BWAPI::Position enemybaseLocation;
 
 	void BasicOrder();
 	void increaseWorkerMax(int increase);

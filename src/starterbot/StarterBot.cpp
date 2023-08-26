@@ -6,6 +6,7 @@ StarterBot::StarterBot()
 {
     stage = 0;
     workerMax = 30;
+    enemybaseLocation;
 }
 
 // Called when the bot starts!
@@ -40,12 +41,8 @@ void StarterBot::onFrame()
     // Draw unit health bars, which brood war unfortunately does not do
     Tools::DrawUnitHealthBars();
 
-
-
     // Iterate over our Build Order
     BasicOrder();
-
-
 
     // Draw some relevent information to the screen to help us debug the bot
     drawDebugInformation();
@@ -222,6 +219,24 @@ void trainZerglings() {
             break;
         }
     }
+}
+
+void scoutEnemyBaseLocations() {
+    //Check if 4 player or 2 player map, if 2 player, immediately return the position.
+
+    // Get list of possible start locations
+    auto startLocations = BWAPI::Broodwar->getStartLocations();
+
+    // Check if we have more than 3 lings
+
+    // Scout all possible starting locations
+
+    // save enemy base location
+
+}
+
+void sendScout(BWAPI::Position scoutLocation) {
+
 }
 
 
