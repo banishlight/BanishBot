@@ -38,3 +38,6 @@ windows/bin/ReplayData.txt
 windows/bin/ReplayParser.exe
 windows/bin/RunReplayParserAndStarcraft.bat
 windows/bin/StarterBot.exe
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/settings.json

@@ -228,7 +228,19 @@ void scoutEnemyBaseLocations() {
     auto startLocations = BWAPI::Broodwar->getStartLocations();
 
     // Check if we have more than 3 lings
-
+    int lingCount = 0;
+    for (auto u : BWAPI::Broodwar->self()->getUnits()) {
+        if (u->getType() == BWAPI::UnitTypes::Zerg_Larva) {
+            lingCount += 1;
+        }
+    }
+    if (lingCount >= 3) {
+        // Sufficient amount of lings, send scouts
+    }
+    else {
+        // Not enough lings
+        return;
+    }
     // Scout all possible starting locations
 
     // save enemy base location
