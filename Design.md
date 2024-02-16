@@ -12,3 +12,7 @@ This is the portion of the bot responsible for watching out for threats such as 
 The Macro manager is in charge of following the build order, training units, building structures, setting rallys 
 
 ### Micro Management
+
+
+### Build Order Parsing
+Parsing the build order and organizing it into something the bot can traverse will be an important module.  For now the build order is a switch case statement that once a condition is satisfied it will iterate onto the next stage of the build.  This build order is much more explicit than the example human read one as it has to carry out each specific task.  The future build order parser will construct a tree like structure for the bot to traverse as the game advances.  The trees branchs will either be a default or conditional branch.  Where a conditional branch is instruction given to the bot to carry out if the condition is met.  Such as if a cannon rush is detected, the bot may halt what it's doing to stop the cannon rush and then find some way to continue out the game.  Carrying on with the idea of this cannon rush and abstraction and automation of action, in the future the bot may have an automatic cannon rush handler and it will not need to be explicitly checked and handled for within the build order (again, similar to how a human may handle it.  As a human player learns how to play starcraft they will learn how to transition their build into stopping a cannon rush and transition out of handling it to close out the game).  
