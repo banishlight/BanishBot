@@ -11,6 +11,7 @@ This is a Zerg AI with the goal of approaching the game like a pro player.  Bein
 The abstraction between order and execution means I can implement a generic muta micro method and then when the build order creates mutas the AI will use them appropriately.
 
 An [example](https://liquipedia.net/starcraft/2_Hatch_Muta_(vs._Protoss)) of a build order looks like:
+```
 9 - Overlord
 12 — Hatchery @ expansion
 12 — Scout
@@ -32,6 +33,7 @@ NOTE — Make Drones when possible (see note)
 If Protoss opened Stargate -> Corsair, build 2–4 Scourge (1–2 Eggs), and continue Mutalisk production
 @100% Hatchery — Overlord at 3rd
 @100% Hatchery — 4th Hatchery at Natural
+```
 
 This is a build meant for ZvP.  A 2 hatch Muta build that weighs on the users muta micro capabilities.  It needs to pick off "lone photon cannons, High Temps, dragoons and probes".
 
