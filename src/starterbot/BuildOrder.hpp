@@ -1,20 +1,25 @@
 
 
 
+#include <vector>
+
 class BuildOrder {
 
     private:
         void generateTestBuild();
 
     public:
+        BuildOrder();
+        void getBuild();
 
-
-}
+};
 
 class BuildNode {
-    BuildNode children[];
+    std::vector<BuildNode> children;
     private:
 
     public:
+        BuildNode();
+        BuildNode(int nChildren);
 
-}
+};

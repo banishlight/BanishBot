@@ -20,6 +20,9 @@ void BuildOrder::generateTestBuild() {
 
 }
 
+BuildNode::BuildNode() {
+}
+
 BuildNode::BuildNode(int nChildren) {
-    this.children = BuildNode[nChildren];
+    this->children.resize(nChildren);
 }
